@@ -62,7 +62,7 @@ public class BaseAI : BaseObject
 		}
 	}
 
-	void ChangeAnimation()
+	protected void ChangeAnimation()
 	{
 
 		if(ANIMATOR == null)
@@ -124,12 +124,12 @@ public class BaseAI : BaseObject
 	protected virtual void ProcessMove()
 	{
 		_CurrentAIState = eAIStateType.AI_STATE_MOVE;
-		ChangeAnimation();
+		//ChangeAnimation();
 	}
 
 	protected virtual void ProcessAttack()
 	{
-        TargetComponent.ThrowEvent(ConstValue.EventKey_SelectSkill, 0);
+        //TargetComponent.ThrowEvent(ConstValue.EventKey_SelectSkill, 0);
 
 		_CurrentAIState = eAIStateType.AI_STATE_ATTACK;
 		ChangeAnimation();

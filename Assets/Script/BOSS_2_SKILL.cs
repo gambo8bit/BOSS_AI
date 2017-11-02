@@ -10,6 +10,7 @@ public class BOSS_2_SKILL : BaseAI
     Collider boss_collider;
     Transform Target = null;
     
+
     private void Awake()
     {
         boss_collider = GetComponent<BoxCollider>();
@@ -31,13 +32,18 @@ public class BOSS_2_SKILL : BaseAI
 
     protected override IEnumerator Move()
     {
-        SetMove(Target.transform.position); //목적지 설정
 
         //거리가 1 이하면
-        if(Vector3.Distance(Target.transform.position, transform.position) < 0.1f)
+        if(Vector3.Distance(Target.transform.position, transform.position) < Target.transform.localScale.z)
         {
             Stop();
             AddNextAI(eAIStateType.AI_STATE_ATTACK);
+        }
+        else
+        {
+        SetMove(Target.transform.position); //목적지 설정
+            transform.LookAt(Target);
+            AddNextAI(eAIStateType.AI_STATE_MOVE);
         }
         
         
@@ -58,6 +64,7 @@ public class BOSS_2_SKILL : BaseAI
 
 
         }
+        AddNextAI(eAIStateType.AI_STATE_IDLE);
         return base.Attack();
     }
 
@@ -65,18 +72,28 @@ public class BOSS_2_SKILL : BaseAI
     {
         return base.Die();
     }
-    int rot_count = 0;
-   void Skill_1()
+    
+
+    void Skill_1()
     {
-        rot_count++;
-        transform.Rotate(0, 1, 0);
-        
-        if(rot_count >= 720)
-        {
-            rot_count = 0;
-            b_Skill_1_ready = false;
-        }
-        
+
+
+        NAV_MESH_AGENT.enabled= false;
+        transform.position += Vector3.up * 10;
+
+
+
+
+        b_Skill_1_ready = false;
+        ////transform.Rotate(90, 0, 0);
+        //rot_count++;
+        //transform.Rotate(0, 1, 0);
+
+        //if (rot_count >= 720)
+        //{
+        //    rot_count = 0;
+        //}
+
     }
     private void Update()
     {
@@ -84,12 +101,13 @@ public class BOSS_2_SKILL : BaseAI
         if(!b_Skill_1_ready)
         time += Time.deltaTime;
 
-        if (time > 10)
+        if (time > 5f)
         {
             time = 0;
             b_Skill_1_ready = true;
         }
             
+        UpdateAI();
     }
 
     private void OnTriggerEnter(Collider other)
