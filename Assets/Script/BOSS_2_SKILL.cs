@@ -7,13 +7,13 @@ public class BOSS_2_SKILL : BaseAI
 {
     bool b_Skill_1_ready = false;
     float time = 0;
-    Collider boss_collider;
+    
     Transform Target = null;
     
 
     private void Awake()
     {
-        boss_collider = GetComponent<BoxCollider>();
+        
     }
 
     protected override IEnumerator Idle()
@@ -54,7 +54,7 @@ public class BOSS_2_SKILL : BaseAI
     {
         if(b_Skill_1_ready)
         {
-            Skill_1();
+            StartCoroutine(Skill_1());
 
 
            
@@ -74,9 +74,9 @@ public class BOSS_2_SKILL : BaseAI
     }
     
 
-    void Skill_1()
+    IEnumerator Skill_1()
     {
-
+        
 
         NAV_MESH_AGENT.enabled= false;
         transform.position += Vector3.up * 10;
@@ -93,8 +93,10 @@ public class BOSS_2_SKILL : BaseAI
         //{
         //    rot_count = 0;
         //}
-
+        yield return null;
     }
+
+
     private void Update()
     {
 
@@ -114,4 +116,7 @@ public class BOSS_2_SKILL : BaseAI
     {
         Target = other.transform;
     }
+
+
+    
 }

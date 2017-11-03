@@ -124,8 +124,8 @@ public class BaseAI : BaseObject
 	protected virtual void ProcessMove()
 	{
 		_CurrentAIState = eAIStateType.AI_STATE_MOVE;
-		//ChangeAnimation();
-	}
+        ChangeAnimation();
+    }
 
 	protected virtual void ProcessAttack()
 	{
